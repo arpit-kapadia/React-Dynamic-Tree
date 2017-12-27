@@ -92,8 +92,8 @@ class Tree extends React.Component {
   findTreeTitle = (node, data, title) => {
     let newTitle = (
       <span>
-        <b onClick={() => this.navigate('')} style={{color: '#415158'}}> Home </b>
-        <span style={{fontSize: '14px'}}> &nbsp;>>&nbsp; </span>
+        <b onClick={() => this.navigate('')} style={{color: '#415158', cursor: 'pointer'}}> Home </b>
+        <span style={{fontSize: '12px'}}> &nbsp;>>&nbsp; </span>
         <b> {title} </b>
       </span>
     );
@@ -109,8 +109,8 @@ class Tree extends React.Component {
 
     newTitle = (
       <span>
-        <b onClick={() => this.navigate(name._id)} style={{color: '#415158'}}> {name.title} </b>
-        <span style={{fontSize: '14px'}}> &nbsp;>>&nbsp; </span>
+        <b onClick={() => this.navigate(name._id)} style={{color: '#415158', cursor: 'pointer'}}> {name.title} </b>
+        <span style={{fontSize: '12px'}}> &nbsp;>>&nbsp; </span>
         <b> {title} </b>
       </span>
     );
