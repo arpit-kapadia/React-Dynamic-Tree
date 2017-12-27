@@ -51,6 +51,7 @@ class App extends Component {
   }
 
   addNewItem = (parent, child) => {
+    let { collection } = this.state;
     let _id = `${this.state.collection.length + 1}`;
     let newItem = {
       _id,
@@ -59,32 +60,47 @@ class App extends Component {
       title: `new child of ${parent} - element#${_id}`,
     };
 
-    let { collection } = this.state;
-
     collection = collection.map(item => {
       if (item._id == parent) {
         item.children.splice(item.children.indexOf(child), 0, _id);
         item.children.join();
       }
-
+      
       return item;
     })
 
     collection.push(newItem);
-
     this.setState({collection});
+  }
+
+  createTree = (_id) => {
+    return (
+      <Tree
+        addNewItem={this.addNewItem}
+        collection={this.state.collection}
+        node={_id}
+      />
+    );
   }
 
   processRoutes = (data) => {
     return data.map(item => {
-      return <Route exact path={`/${item._id}`} render={() => <Tree addNewItem={this.addNewItem} collection={data} node={item._id} />} />
+      return (
+        <Route
+          exact path={`/${item._id}`}
+          render={() => this.createTree(item._id)}
+        />
+      )
     });
   }
 
   render() {
     return (
       <Switch>
-        <Route exact path='/' render={() => <Tree addNewItem={this.addNewItem} collection={this.state.collection} node={'1'}/>} />
+        <Route
+          exact path='/'
+          render={() => this.createTree('0')}
+        />
         {this.processRoutes(this.state.collection)}
       </Switch>
     );

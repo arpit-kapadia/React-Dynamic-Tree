@@ -1,5 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import Li from './list-element.jsx';
+
 
 class Tree extends React.Component {
   constructor(props) {
@@ -15,6 +18,10 @@ class Tree extends React.Component {
       collection: props.collection,
       node: props.node || '0',
     });
+  }
+
+  navigate = (id) => {
+    this.context.router.history.push(`/${id}`);
   }
 
   createTree = (index = '0', collection = this.state.collection) => {
@@ -69,31 +76,6 @@ class Tree extends React.Component {
     }
   }
 
-  addNewItem = (parent, child) => {
-    let _id = `${this.state.collection.length + 1}`;
-    let newItem = {
-      _id,
-      parent: parent,
-      children: [],
-      title: `new child of ${parent} - element#${_id}`,
-    };
-
-    let { collection } = this.state;
-
-    collection = collection.map(item => {
-      if (item._id == parent) {
-        item.children.splice(item.children.indexOf(child), 0, _id);
-        item.children.join();
-      }
-
-      return item;
-    })
-
-    collection.push(newItem);
-
-    this.setState({collection});
-  }
-
   toggleExpansion = (title) => {
     let { collection } = this.state;
 
@@ -107,8 +89,38 @@ class Tree extends React.Component {
     this.setState({collection});
   }
 
+  findTreeTitle = (node, data, title) => {
+    let newTitle = (
+      <span>
+        <b onClick={() => this.navigate('')} style={{color: '#415158'}}> Home </b>
+        >>
+        <b> {title} </b>
+      </span>
+    );
+
+    if (node == '0') return newTitle;
+
+    let name;
+    data.forEach(item => {
+      if (item._id == node) {
+        name = item;
+      }
+    });
+
+    newTitle = (
+      <span>
+        <b onClick={() => this.navigate(name._id)} style={{color: '#415158'}}> {name.title} </b>
+        >>
+        <b> {title} </b>
+      </span>
+    );
+
+    return this.findTreeTitle(name.parent, data, newTitle);      
+  }
+
   render() {
     let content = this.createTree(this.state.node);
+    let TreeName = this.findTreeTitle(this.props.node, this.props.collection, '');
 
     return (
       <div
@@ -118,11 +130,15 @@ class Tree extends React.Component {
           color: '#414141',
         }}
       >
-        <h2><u> {this.state.node} </u></h2>
+        <h3> {TreeName} </h3>
         {content}
       </div>
     );
   }
+}
+
+Tree.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 export default Tree;
