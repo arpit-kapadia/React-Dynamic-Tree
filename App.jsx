@@ -50,26 +50,38 @@ class App extends Component {
     }
   }
 
-  addNewItem = (parent, child) => {
+  addNewItem = (parent, child, keyPressed) => {
     let { collection } = this.state;
     let _id = `${this.state.collection.length + 1}`;
     let newItem = {
       _id,
       parent: parent,
       children: [],
-      title: `new child of ${parent} - element#${_id}`,
+      title: '      ',
+      // title: `new child of ${parent} - element#${_id}`,
     };
 
-    collection = collection.map(item => {
+    let childIndex = -1;
+    collection = collection.map((item, index) => {
       if (item._id == parent) {
         item.children.splice(item.children.indexOf(child), 0, _id);
         item.children.join();
+        if (keyPressed == 9) item.expanded = true;
       }
       
-      return item;
-    })
+      if (item._id == child) childIndex = index;
 
-    collection.push(newItem);
+      return item;
+    });
+
+    if (childIndex <= -1) return;
+    console.log('childIndex===>', childIndex);
+
+    collection.splice(childIndex + 1, 0, newItem).join();
+
+    this.setState({collection});
+  }
+  setCollection = (collection) => {
     this.setState({collection});
   }
 
@@ -78,17 +90,19 @@ class App extends Component {
       <Tree
         addNewItem={this.addNewItem}
         collection={this.state.collection}
+        setCollection={this.setCollection}
         node={_id}
       />
     );
   }
 
   processRoutes = (data) => {
-    return data.map(item => {
+    return data.map((item, index) => {
       return (
         <Route
           exact path={`/${item._id}`}
           render={() => this.createTree(item._id)}
+          key={`${item._id} ${item.parent} ${index}`}
         />
       )
     });

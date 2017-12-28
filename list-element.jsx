@@ -36,14 +36,12 @@ class Li extends Component {
       color: 'rgba(0,0,0,0.17)'
     };
     let linkStyle = {
-      minheight: '20px',
-      minWidth: '20px',
       height: '20px',
       width: '20px',
-      padding: '1px',
-      marginBottom: '2px',
+      padding: '2px',
       borderRadius: '50%',
       marginRight: '8px',
+      color: '#414141',
       background: '#414141',
       border: '6px solid white'
     }
@@ -62,6 +60,7 @@ class Li extends Component {
     return (
       <li
         key={key}
+        style={{minHeight: '35px'}}
       >
         <button
           onClick={() => this.props.toggleExpansion(item.title)}
@@ -77,12 +76,13 @@ class Li extends Component {
           style={linkStyle}
           onMouseEnter={() => this.toggleHover('linkHover')}
           onMouseLeave={() => this.toggleHover('linkHover')}
-        >
+        >.
         </button>
 
         <span
           key={item.title + item._id + item._id}
           contentEditable={true}
+          suppressContentEditableWarning
           onKeyDown={(e) => this.props.specialKeyPressed(e, item)}
         >
           { item.title }
