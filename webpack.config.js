@@ -8,7 +8,7 @@ var config = {
 
   devServer: {
     inline: true,
-    port: 3000
+    port: 4200,
   },
 
   module: {

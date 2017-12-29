@@ -57,8 +57,7 @@ class App extends Component {
       _id,
       parent: parent,
       children: [],
-      title: '      ',
-      // title: `new child of ${parent} - element#${_id}`,
+      title: `new child of ${parent} - element#${_id}`,
     };
 
     let childIndex = -1;

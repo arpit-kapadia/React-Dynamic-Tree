@@ -54,13 +54,21 @@ class Li extends Component {
     }
 
     if (this.state.linkHover) {
-      linkStyle.border = '6px solid #CCCCCC';
+      linkStyle.border = '6px solid #BEBEBE';
+    }
+
+    else if (item.expanded) {
+      linkStyle.border = '6px solid #DDDDDD';
     }
 
     return (
-      <li
+      <div
         key={key}
-        style={{minHeight: '35px'}}
+        style={{
+          minHeight: '35px',
+          paddingRight: '30px',
+          marginLeft: '30px',
+        }}
       >
         <button
           onClick={() => this.props.toggleExpansion(item.title)}
@@ -91,7 +99,7 @@ class Li extends Component {
         <span>
           { item.expanded ? this.props.createTree(item._id, this.props.data) : '' }
         </span>
-      </li>
+      </div>
     );
   }
 

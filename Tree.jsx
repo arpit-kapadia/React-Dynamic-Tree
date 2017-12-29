@@ -55,51 +55,18 @@ class Tree extends React.Component {
 
 
     return (
-      <ul style={{listStyle: 'none'}}> {html} </ul>
+      <div> {html} </div>
     );
   }
 
 
   specialKeyPressed = (e, item) => {
     if (e.keyCode == 13) { //ENTER
-      // console.log('e ===>', e);
-      // console.log('e ===>', e.currentTarget);
       this.props.addNewItem(item.parent, item._id, 13);
       e.preventDefault();
     }
 
     else if (e.keyCode == 9) { //TAB
-      // let { collection } = this.state;
-      // let parent = -1;
-      // let currentItemIndex = -1;
-
-      // collection.forEach((pivot, index) => {
-      //   if (pivot._id == item.parent) {
-      //     parent = pivot;
-      //     pivot.children.forEach((child, i) => {
-      //       if (child == item._id) {
-      //         currentItemIndex = i;
-      //       }
-      //     })
-      //   };
-      // });
-
-      // if (parent == -1 || currentItemIndex == -1 || currentItemIndex == 0) return;
-
-      // collection[currentItemIndex].parent = parent.children[currentItemIndex-1];
-      // collection.map(element => {
-      //   if (element._id == collection[currentItemIndex].parent) {
-      //     element.expanded = true;
-      //   }
-
-      //   return element;
-      // })
-
-      // this.props.setCollection(collection);        
-
-      // console.log('e ===>', e);
-      // console.log('e ===>', e.currentTarget);
-
       this.props.addNewItem(item._id, item._id, 9);
       e.preventDefault();
     }
