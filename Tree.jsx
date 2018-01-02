@@ -49,6 +49,7 @@ class Tree extends React.Component {
           specialKeyPressed={this.specialKeyPressed}
           createTree={this.createTree}
           data={data}
+          modifyTitle={this.modifyTitle}
         />
       )
     })
@@ -59,17 +60,31 @@ class Tree extends React.Component {
     );
   }
 
+  modifyTitle = (e, data, context) => {
+    let { collection } = this.state;
 
-  specialKeyPressed = (e, item) => {
+    console.log('data===>', data);
+    console.log('e.target.innerText ===>', e.target.innerText);
+
+    collection = collection.map(item => {
+      if (item._id == data._id) item.title = e.target.innerText;
+
+      return item;
+    });
+
+    this.props.setCollection(collection);
+  }
+
+  specialKeyPressed = (e, item, context) => {
     if (e.keyCode == 13) { //ENTER
-      this.props.addNewItem(item.parent, item._id, 13);
+      this.props.addNewItem(item, 13, context);
       e.preventDefault();
     }
 
-    else if (e.keyCode == 9) { //TAB
-      this.props.addNewItem(item._id, item._id, 9);
-      e.preventDefault();
-    }
+    // else if (e.keyCode == 9) { //TAB
+    //   this.props.addNewItem(item._id, item._id, 9, context);
+    //   // e.preventDefault();
+    // }
   }
 
   toggleExpansion = (title) => {
@@ -82,7 +97,7 @@ class Tree extends React.Component {
       return item;
     });
 
-    this.setState({collection});
+    this.props.setCollection({collection});
   }
 
   findTreeTitle = (node, data, title) => {

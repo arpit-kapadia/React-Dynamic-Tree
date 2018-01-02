@@ -63,42 +63,51 @@ class Li extends Component {
 
     return (
       <div
+        className={'row container-fluid'}
         key={key}
         style={{
           minHeight: '35px',
           paddingRight: '30px',
           marginLeft: '30px',
+          minWidth: '400px!important'
         }}
       >
-        <button
-          onClick={() => this.props.toggleExpansion(item.title)}
-          style={buttonStyle}
-          onMouseEnter={() => this.toggleHover('buttonHover')}
-          onMouseLeave={() => this.toggleHover('buttonHover')}
-        >
-          { item.expanded ? '-' : '+' }
-        </button>
+        <div className={''} style={{display: 'inline-block'}}>
+          <button
+            onClick={() => this.props.toggleExpansion(item.title)}                       
+            style={buttonStyle}
+            onMouseEnter={() => this.toggleHover('buttonHover')}
+            onMouseLeave={() => this.toggleHover('buttonHover')}
+          >
+            { item.expanded ? '-' : '+' }
+          </button>
+        </div>
 
-        <button
-          onClick={() => this.navigate(item._id)}
-          style={linkStyle}
-          onMouseEnter={() => this.toggleHover('linkHover')}
-          onMouseLeave={() => this.toggleHover('linkHover')}
-        >.
-        </button>
+        <div className={''} style={{display: 'inline-block', paddingBottom: '0px!important', paddingBottom: '3px', paddingLeft: '2px', marginRight: '2px'}}>
+          <button
+            onClick={() => this.navigate(item._id)}
+            style={linkStyle}
+            onMouseEnter={() => this.toggleHover('linkHover')}
+            onMouseLeave={() => this.toggleHover('linkHover')}
+          >
+          </button>
+        </div>
 
-        <span
+        <div
+          className={' title-div'}
+          style={{display: 'inline-block', paddingTop: '3px', minWidth: '300px', minHeight: '100%',}}
           key={item.title + item._id + item._id}
           contentEditable={true}
           suppressContentEditableWarning
-          onKeyDown={(e) => this.props.specialKeyPressed(e, item)}
+          onKeyDown={(e) => this.props.specialKeyPressed(e, item, this)}
+          onBlur={(e) => this.props.modifyTitle(e, item, this)}
         >
           { item.title }
-        </span>
+        </div>
 
-        <span>
+        <div>
           { item.expanded ? this.props.createTree(item._id, this.props.data) : '' }
-        </span>
+        </div>
       </div>
     );
   }

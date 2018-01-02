@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom'; 
 
 import { Route } from 'react-router-dom';
 import { Switch } from 'react-router';
@@ -50,36 +51,42 @@ class App extends Component {
     }
   }
 
-  addNewItem = (parent, child, keyPressed) => {
+  addNewItem = (data, keyPressed, context) => {
+    // console.log('textcontent ===>', ReactDOM.findDOMNode(context).textContent);
+
+    let currentPosition = window.getSelection().anchorOffset;
+    let { parent, _id, title } = data;
     let { collection } = this.state;
-    let _id = `${this.state.collection.length + 1}`;
+    let newItemId = `${this.state.collection.length + 1}`;
     let newItem = {
-      _id,
+      _id: newItemId,
       parent: parent,
       children: [],
-      title: `new child of ${parent} - element#${_id}`,
+      title: `${title.substr(0,currentPosition)}`,
     };
 
     let childIndex = -1;
     collection = collection.map((item, index) => {
       if (item._id == parent) {
-        item.children.splice(item.children.indexOf(child), 0, _id);
-        item.children.join();
+        item.children.splice(item.children.indexOf(_id), 0, newItemId).join();
         if (keyPressed == 9) item.expanded = true;
       }
       
-      if (item._id == child) childIndex = index;
+      if (item._id == _id) {
+        childIndex = index;
+        item.title = title.substr(currentPosition, title.length - currentPosition);
+      }
 
       return item;
     });
 
     if (childIndex <= -1) return;
-    console.log('childIndex===>', childIndex);
 
-    collection.splice(childIndex + 1, 0, newItem).join();
+    collection.splice(childIndex, 0, newItem).join();
 
     this.setState({collection});
   }
+
   setCollection = (collection) => {
     this.setState({collection});
   }
