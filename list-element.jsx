@@ -31,7 +31,7 @@ class Li extends Component {
       width: '30px',
       height: '30px',
       padding: '2px',
-      fontSize: '23px',
+      fontSize: '28px',
       fontWeight: '600',
       color: 'rgba(0,0,0,0.17)'
     };
@@ -43,14 +43,13 @@ class Li extends Component {
       marginRight: '8px',
       color: '#414141',
       background: '#414141',
-      border: '6px solid white'
+      border: '6px solid #DDDDDD'
     }
     let { item } = this.props;
     let key = 'title = ' + item.title + '-' + item._id;
 
     if (this.state.buttonHover) {
       buttonStyle.color = '#313131'
-      buttonStyle.fontWeight = '800';
     }
 
     if (this.state.linkHover) {
@@ -58,7 +57,7 @@ class Li extends Component {
     }
 
     else if (item.expanded) {
-      linkStyle.border = '6px solid #DDDDDD';
+      linkStyle.border = '6px solid white';
     }
 
     return (
@@ -94,13 +93,16 @@ class Li extends Component {
         </div>
 
         <div
-          className={' title-div'}
+          id={`id-${item._id}`}
+          tabIndex={this.props.tabIndex}
+          className={'title-div'}
           style={{display: 'inline-block', paddingTop: '3px', minWidth: '300px', minHeight: '100%',}}
           key={item.title + item._id + item._id}
           contentEditable={true}
           suppressContentEditableWarning
-          onKeyDown={(e) => this.props.specialKeyPressed(e, item, this)}
-          onBlur={(e) => this.props.modifyTitle(e, item, this)}
+          onKeyDown={(e) => this.props.specialKeyPressed(e, item)}
+          onKeyUp={() => this.props.specialKeyReleased()}
+          onBlur={(e) => this.props.modifyTitle(e, item)}
         >
           { item.title }
         </div>

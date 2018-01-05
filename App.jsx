@@ -13,6 +13,13 @@ class App extends Component {
     this.state = {
       collection: [
         {
+          _id: '0',
+          title: 'Home',
+          expanded: true,
+          children: ['1', '5'],
+          parent: '',
+        },
+        {
           _id: '1',
           title: 'first',
           expanded: true,
@@ -51,9 +58,7 @@ class App extends Component {
     }
   }
 
-  addNewItem = (data, keyPressed, context) => {
-    // console.log('textcontent ===>', ReactDOM.findDOMNode(context).textContent);
-
+  addNewItem = (data, keyPressed) => {
     let currentPosition = window.getSelection().anchorOffset;
     let { parent, _id, title } = data;
     let { collection } = this.state;
@@ -83,8 +88,9 @@ class App extends Component {
     if (childIndex <= -1) return;
 
     collection.splice(childIndex, 0, newItem).join();
-
     this.setState({collection});
+
+    $(`#id-${_id}`).attr("tabindex", -1).focus();
   }
 
   setCollection = (collection) => {
