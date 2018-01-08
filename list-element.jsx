@@ -12,7 +12,20 @@ class Li extends Component {
     this.state = {
       buttonHover: false,
       linkHover: false,
+      lineHover: false,
       subDivHeight: 0,
+    }
+    this.checkingInterval = (elementId) => {
+      setInterval(() => this.checkHeightUpdate(elementId), 10)
+    };
+  }
+
+  checkHeightUpdate = (elementId) => {
+    const element = document.getElementById(elementId);
+    let subDivHeight = (element && element.clientHeight) || 0;
+
+    if (subDivHeight != this.state.subDivHeight) {
+      this.setState({subDivHeight});
     }
   }
 
@@ -24,71 +37,85 @@ class Li extends Component {
     this.context.router.history.push(`/${id}`);
   }
 
+  componentWillMount() {
+    let { item } = this.props;
+    const subDivId = `id-sublist-${item._id}`;
+    const mainKey = `key-${item._id}`;
+
+    this.checkingInterval(subDivId);
+
+    this.setState({
+      mainKey,
+      subDivId,
+    })
+  }
+
   render() {
     let buttonStyle = {
       borderRadius: '50%',
       background: 'rgba(0,0,0,0)',
       border: 'none',
-      // width: '30px',
-      // height: '30px',
-      // paddingBottom: '2px',
       fontSize: '16px',
       fontWeight: '600',
       color: 'rgba(0,0,0,0.17)'
     };
     let linkStyle = {
-      // height: '20px',
-      // width: '20px',
-      padding: '2px',
+      padding: '3px',
       borderRadius: '50%',
-      // marginRight: '8px',
       color: '#414141',
       fontSize: '16px',
       background: '#414141',
       border: '6px solid #DDDDDD'
     }
-    let { item } = this.props;
-    let key = `key-${item._id}`;
+    let addNewStyle = {
+      display: 'none',
+      borderRAdius: '15px',
+      minHeight: '15px',
+      minWidth: '15px',
+      top: '-17px!important',
+      background: 'black',
+    };
+
+    let { item } = this.props;    
+    const {subDivHeight, subDivId, mainKey} = this.state;
 
     if (this.state.buttonHover) {
-      buttonStyle.color = '#313131'
+      buttonStyle.color = '#313131';
+    }
+
+    if (this.state.lineHover) {
+      addNewStyle.display = 'block';
     }
 
     if (this.state.linkHover) {
       linkStyle.border = '6px solid #BEBEBE';
-    }
-
-    else if (item.expanded) {
+    } else if (item.expanded) {
       linkStyle.border = '6px solid white';
     }
 
-    const subDivId = `id-sublist-${item._id}`;
-    const subDivElement = document.getElementById(subDivId);
-    let subDivHeight = (subDivElement && subDivElement.clientHeight) || 0;
-    if (subDivHeight) subDivHeight -= 10;
 
     return (
       <div
-        key={key}
-        id={key}
+        key={mainKey}
+        id={mainKey}
         style={{
-          // minHeight: '30px',
-          // paddingRight: '30px',
-          // marginLeft: '30px',
-          // padding: '1px',
           background: 'rgba(0,0,0,0.08)'
-          // minWidth: '400px!important'
         }}
       >
-        <div className={'inline-block'} style={{verticalAlign: 'top', textAlign: 'right', height: '100%', background: 'rgba(225,220,100,0.8)'}}>
+        <div
+          className={'inline-block'}
+          style={{
+            verticalAlign: 'top',
+            textAlign: 'right',
+            padding: '0px!important',
+            background: 'rgba(25,80,150,0.2)'
+          }}
+        >
           <div
             style={{
               display: 'inline-block',
               verticalAlign: 'top',
-              background: 'rgba(255,0,0,0.1)',
-              // margin: '0 auto',
-              // paddingBottom: '2px',
-              // paddingLeft: '1px',
+              background: 'rgba(0,0,255,0.1)',
             }}
           >
             <button
@@ -104,12 +131,8 @@ class Li extends Component {
           <div
             style={{
               display: 'inline-block',
-              background: 'rgba(0,255,0,0.1)',
-              height: '100%',
+              background: 'rgba(255,0,100,0.1)',
               textAlign: 'center',
-              // paddingBottom: '0px!important',
-              // paddingBottom: '3px',
-              // paddingLeft: '2px',
             }}
           >
             <div>
@@ -121,16 +144,23 @@ class Li extends Component {
               >
               </button>
             </div>
-            <div className={'outer'} style={{height: subDivHeight}}>
+            <div
+              className={'outer'}
+              style={{height: subDivHeight}}
+              onMouseEnter={() => this.toggleHover('lineHover')}
+              onMouseLeave={() => this.toggleHover('lineHover')}
+            >
               <div className={'inner'}></div>
             </div>
-            { /*
-              item.expanded
-              ? <div className={'outer'} style={{height: subDivHeight}}>
-                  <div className={'inner'}></div>
-                </div>
-              : ''
-            */}
+            <div>
+              <button
+                onClick={() => this.navigate(item._id)}
+                style={addNewStyle}
+                onMouseEnter={() => this.setState({lineHover: true})}
+                onMouseLeave={() => this.setState({lineHover: false})}
+              >
+              </button>
+            </div>
           </div>
         </div>
 
@@ -142,8 +172,8 @@ class Li extends Component {
             style={{
               background: 'rgba(0,0,255,0.1)',
               minWidth: '300px',
-              // minHeight: '30px'
-              height: 'auto',
+              height: '100%',
+              paddingLeft: '10px',
             }}
             key={item.title + item._id + item._id}
             contentEditable={true}
@@ -155,7 +185,7 @@ class Li extends Component {
             { item.title }
           </div>
 
-          <div id={subDivId}>
+          <div id={subDivId} style={{minHeight: 0,}}>
             { item.expanded ? this.props.createTree(item._id, this.props.data) : '' }
           </div>
         </div>
