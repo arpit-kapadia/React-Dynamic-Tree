@@ -55,9 +55,9 @@ class Li extends Component {
       borderRadius: '50%',
       background: 'rgba(0,0,0,0)',
       border: 'none',
-      fontSize: '16px',
+      fontSize: '18px',
       fontWeight: '600',
-      color: 'rgba(0,0,0,0.17)'
+      color: 'rgba(0,0,0,0)'
     };
     let linkStyle = {
       padding: '3px',
@@ -65,15 +65,10 @@ class Li extends Component {
       color: '#414141',
       fontSize: '16px',
       background: '#414141',
-      border: '6px solid #DDDDDD'
+      border: '5px solid #DDDDDD'
     }
     let addNewStyle = {
       display: 'none',
-      borderRAdius: '15px',
-      minHeight: '15px',
-      minWidth: '15px',
-      top: '-17px!important',
-      background: 'black',
     };
 
     let { item } = this.props;    
@@ -88,9 +83,9 @@ class Li extends Component {
     }
 
     if (this.state.linkHover) {
-      linkStyle.border = '6px solid #BEBEBE';
+      linkStyle.border = '5px solid #BEBEBE';
     } else if (item.expanded) {
-      linkStyle.border = '6px solid white';
+      linkStyle.border = '5px solid white';
     }
 
 
@@ -99,7 +94,7 @@ class Li extends Component {
         key={mainKey}
         id={mainKey}
         style={{
-          background: 'rgba(0,0,0,0.08)'
+          // background: 'rgba(0,0,0,0.08)'
         }}
       >
         <div
@@ -108,14 +103,14 @@ class Li extends Component {
             verticalAlign: 'top',
             textAlign: 'right',
             padding: '0px!important',
-            background: 'rgba(25,80,150,0.2)'
+            // background: 'rgba(25,80,150,0.2)'
           }}
         >
           <div
             style={{
               display: 'inline-block',
               verticalAlign: 'top',
-              background: 'rgba(0,0,255,0.1)',
+              // background: 'rgba(0,0,255,0.1)',
             }}
           >
             <button
@@ -131,7 +126,7 @@ class Li extends Component {
           <div
             style={{
               display: 'inline-block',
-              background: 'rgba(255,0,100,0.1)',
+              // background: 'rgba(255,0,100,0.1)',
               textAlign: 'center',
             }}
           >
@@ -170,7 +165,7 @@ class Li extends Component {
             tabIndex={this.props.tabIndex}
             className={'title-div'}
             style={{
-              background: 'rgba(0,0,255,0.1)',
+              // background: 'rgba(0,0,255,0.1)',
               minWidth: '300px',
               height: '100%',
               paddingLeft: '10px',
