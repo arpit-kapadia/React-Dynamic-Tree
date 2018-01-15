@@ -40,12 +40,14 @@ class Tree extends React.Component {
     });
 
     level.forEach((item, i) => {
-      let key = 'title = ' + item.title + '-' + i + item._id;
+      // let key = 'title = ' + item.title + '-' + i + item._id;
+      let key = `Li-key-${item._id}`;
 
       html.push(
         <Li
           tabIndex={i+100}
-          key={`${item.title} ${item._id} ${i}`}
+          // key={`Li-key-${item._id}`}
+          key={key}
           toggleExpansion={this.toggleExpansion}
           item={item}
           specialKeyPressed={this.specialKeyPressed}
@@ -189,11 +191,11 @@ class Tree extends React.Component {
     console.log('key code = ', e.keyCode)
   }
 
-  toggleExpansion = (title) => {
+  toggleExpansion = (_id) => {
     let { collection } = this.state;
 
     collection = collection.map(item => {
-      if (item.title == title) {
+      if (item._id == _id) {
         item.expanded = !item.expanded;
       }
       return item;
@@ -205,7 +207,12 @@ class Tree extends React.Component {
   findTreeTitle = (node, data, title) => {
     let newTitle = (
       <span>
-        <b onClick={() => this.navigate('')} style={{color: '#415158', cursor: 'pointer'}}> Home </b>
+        <b
+          onClick={() => this.navigate('')}
+          style={{color: '#415158', cursor: 'pointer'}}
+        >
+          Home
+        </b>
         <span style={{fontSize: '12px'}}> &nbsp;>>&nbsp; </span>
         <b> {title} </b>
       </span>
@@ -222,7 +229,12 @@ class Tree extends React.Component {
 
     newTitle = (
       <span>
-        <b onClick={() => this.navigate(name._id)} style={{color: '#415158', cursor: 'pointer'}}> {name.title} </b>
+        <b
+          onClick={() => this.navigate(name._id)}
+          style={{color: '#415158', cursor: 'pointer'}}
+        >
+          {name.title}
+        </b>
         <span style={{fontSize: '12px'}}> &nbsp;>>&nbsp; </span>
         <b> {title} </b>
       </span>

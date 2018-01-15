@@ -57,7 +57,8 @@ class Li extends Component {
       border: 'none',
       fontSize: '18px',
       fontWeight: '600',
-      color: 'rgba(0,0,0,0)'
+      color: 'rgba(0,0,0,0)',
+      minWidth: '25px',
     };
     let linkStyle = {
       padding: '3px',
@@ -114,7 +115,7 @@ class Li extends Component {
             }}
           >
             <button
-              onClick={() => this.props.toggleExpansion(item.title)}                       
+              onClick={() => this.props.toggleExpansion(item._id)}                       
               style={buttonStyle}
               onMouseEnter={() => this.toggleHover('buttonHover')}
               onMouseLeave={() => this.toggleHover('buttonHover')}
@@ -170,7 +171,7 @@ class Li extends Component {
               height: '100%',
               paddingLeft: '10px',
             }}
-            key={item.title + item._id + item._id}
+            key={`content-editable-key-${item._id}`}
             contentEditable={true}
             suppressContentEditableWarning
             onKeyDown={(e) => this.props.specialKeyPressed(e, item)}

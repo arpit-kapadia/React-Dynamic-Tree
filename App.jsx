@@ -5,10 +5,19 @@ import { Route } from 'react-router-dom';
 import { Switch } from 'react-router';
 
 import Tree from './Tree.jsx';
+import uuidv4 from 'uuid/v4';
 
 class App extends Component {
   constructor() {
     super();
+    const initial_ids = [
+      uuidv4(),
+      uuidv4(),
+      uuidv4(),
+      uuidv4(),
+      uuidv4(),
+      uuidv4(),
+    ];
 
     this.state = {
       collection: [
@@ -16,39 +25,39 @@ class App extends Component {
           _id: '0',
           title: 'Home',
           expanded: true,
-          children: ['1', '5'],
+          children: [initial_ids[0], initial_ids[4]],
           parent: '',
         },
         {
-          _id: '1',
+          _id: initial_ids[0],
           title: 'first',
           expanded: true,
-          children: ['2', '3'],
+          children: [initial_ids[1], initial_ids[2]],
           parent: '0',
         },
         {
-          _id: '2',
+          _id: initial_ids[1],
           title: 'first\'s first child',
           expanded: true,
           children: [],
-          parent: '1',
+          parent: initial_ids[0],
         },
         {
-          _id: '3',
+          _id: initial_ids[2],
           title: 'first\'s second child',
           expanded: true,
-          children: ['4'],
-          parent: '1',
+          children: [initial_ids[3]],
+          parent: initial_ids[0],
         },
         {
-          _id: '4',
+          _id: initial_ids[3],
           title: 'first\'s second child\'s first child',
           expanded: true,
           children: [],
-          parent: '3',
+          parent: initial_ids[2],
         },
         {
-          _id: '5',
+          _id: initial_ids[4],
           title: 'second',
           expanded: true,
           children: [],
@@ -62,7 +71,7 @@ class App extends Component {
     let currentPosition = window.getSelection().anchorOffset;
     let { parent, _id, title } = data;
     let { collection } = this.state;
-    let newItemId = `${this.state.collection.length + 1}`;
+    let newItemId = uuidv4();
     let newItem = {
       _id: newItemId,
       parent: parent,
